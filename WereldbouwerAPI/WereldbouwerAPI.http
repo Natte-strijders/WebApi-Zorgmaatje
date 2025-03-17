@@ -1,6 +1,6 @@
-@WereldbouwerAPI_HostAddress = http://localhost:5209
+@ZorgmaatjeWebApi_HostAddress = http://localhost:5209
 
-GET {{WereldbouwerAPI_HostAddress}}/weatherforecast/
+GET {{ZorgmaatjeWebApi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

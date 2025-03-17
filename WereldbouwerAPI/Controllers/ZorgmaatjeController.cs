@@ -10,7 +10,24 @@ namespace ZorgmaatjeWebApi.Controllers
     [Route("[controller]")]
     public class ZorgmaatjeController : ControllerBase
     {
-        
+        private readonly IZorgmaatjeRepository _zorgmaatjeRepository;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly ILogger<ZorgmaatjeController> _logger;
+
+        public ZorgmaatjeController(IZorgmaatjeRepository repository, IAuthenticationService authenticationService, ILogger<ZorgmaatjeController> logger)
+        {
+            _zorgmaatjeRepository = repository;
+            _authenticationService = authenticationService;
+            _logger = logger;
+        }
+
+        [HttpGet("GetUserId", Name = "GetUserId")]
+        [Authorize]
+        public ActionResult<string> GetUserId()
+        {
+            var userId = _authenticationService.GetCurrentAuthenticatedUserId();
+            return Ok(userId);
+        }
 
     }
 }
