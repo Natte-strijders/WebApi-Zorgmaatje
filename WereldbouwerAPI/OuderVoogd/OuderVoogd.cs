@@ -1,4 +1,4 @@
-﻿namespace ZorgmaatjeWebApi
+﻿namespace ZorgmaatjeWebApi.OuderVoogd
 {
     public class OuderVoogd
     {
