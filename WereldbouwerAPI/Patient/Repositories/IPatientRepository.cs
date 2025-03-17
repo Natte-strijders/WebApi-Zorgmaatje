@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ZorgmaatjeWebApi
+namespace ZorgmaatjeWebApi.Patient.Repositories
 {
     public interface IPatientRepository
     {

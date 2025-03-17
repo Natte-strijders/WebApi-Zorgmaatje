@@ -6,7 +6,7 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace ZorgmaatjeWebApi
+namespace ZorgmaatjeWebApi.Patient.Repositories
 {
     public class PatientRepository : IPatientRepository
     {

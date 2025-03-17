@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ZorgmaatjeWebApi
+namespace ZorgmaatjeWebApi.TrajectZorgMoment
 {
     public class TrajectZorgMoment
     {

@@ -1,4 +1,4 @@
-﻿namespace ZorgmaatjeWebApi
+﻿namespace ZorgmaatjeWebApi.Patient
 {
     public class Patient
     {

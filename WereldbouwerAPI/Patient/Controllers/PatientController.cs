@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using ZorgmaatjeWebApi;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using ZorgmaatjeWebApi.Patient.Repositories;
 
-namespace ZorgmaatjeWebApi.Controllers
+namespace ZorgmaatjeWebApi.Patient.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -51,7 +51,7 @@ namespace ZorgmaatjeWebApi.Controllers
         public async Task<ActionResult<Patient>> CreatePatient(Patient patient)
         {
             await _patientRepository.AddPatient(patient);
-            return CreatedAtAction(nameof(GetPatient), new { id = patient.id }, patient);
+            return CreatedAtAction(nameof(GetPatient), new { patient.id }, patient);
         }
 
         [HttpPut("{id}")]
