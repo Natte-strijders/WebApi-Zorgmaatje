@@ -30,9 +30,10 @@ namespace ZorgmaatjeWebApi.Patient.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Patient>> GetPatient(int id)
+        [Authorize]
+        public async Task<ActionResult<Patient>> GetPatient(string id)
         {
-            var patient = await _patientRepository.GetPatientById(id);
+            var patient = await _patientRepository.GetPatientByIdAsync(id);
             if (patient == null)
             {
                 return NotFound();
@@ -41,34 +42,39 @@ namespace ZorgmaatjeWebApi.Patient.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
         {
-            var patients = await _patientRepository.GetAllPatients();
+            var patients = await _patientRepository.GetAllPatientsAsync();
             return patients.ToList();
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Patient>> CreatePatient(Patient patient)
         {
-            await _patientRepository.AddPatient(patient);
+            var userId = _authenticationService.GetCurrentAuthenticatedUserId();
+            await _patientRepository.AddPatientAsync(patient);
             return CreatedAtAction(nameof(GetPatient), new { patient.id }, patient);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePatient(int id, Patient patient)
+        [Authorize]
+        public async Task<IActionResult> UpdatePatient(string id, Patient patient)
         {
             if (id != patient.id)
             {
                 return BadRequest();
             }
-            await _patientRepository.UpdatePatient(patient);
+            await _patientRepository.UpdatePatientAsync(patient);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePatient(int id)
+        [Authorize]
+        public async Task<IActionResult> DeletePatient(string id)
         {
-            await _patientRepository.DeletePatient(id);
+            await _patientRepository.DeletePatientAsync(id);
             return NoContent();
         }
 

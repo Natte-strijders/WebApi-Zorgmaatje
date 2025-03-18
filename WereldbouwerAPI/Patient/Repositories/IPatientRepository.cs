@@ -6,11 +6,11 @@ namespace ZorgmaatjeWebApi.Patient.Repositories
 {
     public interface IPatientRepository
     {
-        Task<Patient> GetPatientById(int id);
-        Task<IEnumerable<Patient>> GetAllPatients();
-        Task AddPatient(Patient patient);
-        Task UpdatePatient(Patient patient);
-        Task DeletePatient(int id);
+        Task<Patient> GetPatientByIdAsync(string id);
+        Task<IEnumerable<Patient>> GetAllPatientsAsync();
+        Task AddPatientAsync(Patient patient);
+        Task UpdatePatientAsync(Patient patient);
+        Task DeletePatientAsync(string id);
     }
 }
 
