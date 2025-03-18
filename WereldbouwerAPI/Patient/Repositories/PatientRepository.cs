@@ -37,6 +37,11 @@ namespace ZorgmaatjeWebApi.Patient.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
+                var existingPatient = await sqlConnection.QuerySingleOrDefaultAsync<Patient>("SELECT * FROM Patient WHERE Id = @Id", new { patient.id });
+                if (existingPatient != null)
+                {
+                    throw new Exception($"Patient with Id {patient.id} already exists.");
+                }
                 await sqlConnection.ExecuteAsync("INSERT INTO Patient (ID, Voornaam, Achternaam, OuderVoogd_ID, TrajectID, ArtsID) VALUES (@Id, @Voornaam, @Achternaam, @OuderVoogd_ID, @TrajectID, @ArtsID)", patient);
             }
         }

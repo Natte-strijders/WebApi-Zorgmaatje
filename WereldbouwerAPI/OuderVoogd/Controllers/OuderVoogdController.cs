@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using ZorgmaatjeWebApi.OuderVoogd.Repositories;
+using ZorgmaatjeWebApi.Patient;
 
 namespace ZorgmaatjeWebApi.OuderVoogd.Controllers
 {
@@ -21,32 +22,62 @@ namespace ZorgmaatjeWebApi.OuderVoogd.Controllers
             _logger = logger;
         }
 
-        public async Task<ActionResult<OuderVoogd>> GetPatient(string id)
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<ActionResult<OuderVoogd>> GetOuderVoogd(string id)
         {
-            var patient = await _ouderVoogdRepository.GetPatientByIdAsync(id);
-            if (patient == null)
+            var ouderVoogd = await _ouderVoogdRepository.GetOuderVoogdByIdAsync(id);
+            if (ouderVoogd == null)
             {
                 return NotFound();
             }
-            return patient;
+            return ouderVoogd;
         }
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<OuderVoogd>>> GetPatients()
+        public async Task<ActionResult<IEnumerable<OuderVoogd>>> GetOuderVoogden()
         {
-            var patients = await _ouderVoogdRepository.GetAllPatientsAsync();
-            return patients.ToList();
+            var ouderVoogden = await _ouderVoogdRepository.GetAllOuderVoogdenAsync();
+            return ouderVoogden.ToList();
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<OuderVoogd>> CreatePatient(OuderVoogd patient)
+        public async Task<ActionResult<OuderVoogd>> CreateOuderVoogd(OuderVoogd ouderVoogd)
         {
-            var userId = _authenticationService.GetCurrentAuthenticatedUserId();
-            patient.id = userId;
-            await _ouderVoogdRepository.AddPatientAsync(patient);
-            return CreatedAtAction(nameof(GetPatient), new { patient.id }, patient);
+            ouderVoogd.id = Guid.NewGuid().ToString();
+            await _ouderVoogdRepository.AddOuderVoogdAsync(ouderVoogd);
+            return CreatedAtAction(nameof(GetOuderVoogd), new { id = ouderVoogd.id }, ouderVoogd);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateOuderVoogd(string id, OuderVoogd newOuderVoogd)
+        {
+            var existingOuderVoogd = await _ouderVoogdRepository.GetOuderVoogdByIdAsync(id);
+            if (existingOuderVoogd == null)
+            {
+                return NotFound();
+            }
+            newOuderVoogd.id = id;
+            await _ouderVoogdRepository.UpdateOuderVoogdAsync(newOuderVoogd);
+            return CreatedAtAction(nameof(GetOuderVoogd), new { newOuderVoogd.id }, newOuderVoogd);
+
+        }
+
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteOuderVoogd(string id)
+        {
+            var existingOuderVoogd = await _ouderVoogdRepository.GetOuderVoogdByIdAsync(id);
+            if (existingOuderVoogd == null)
+            {
+                return NotFound();
+            }
+            await _ouderVoogdRepository.DeleteOuderVoogdAsync(id);
+            return Ok(id);
         }
 
     }

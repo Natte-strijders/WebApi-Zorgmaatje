@@ -55,8 +55,22 @@ namespace ZorgmaatjeWebApi.Patient.Controllers
         {
             var userId = _authenticationService.GetCurrentAuthenticatedUserId();
             patient.id = userId;
-            await _patientRepository.AddPatientAsync(patient);
-            return CreatedAtAction(nameof(GetPatient), new { patient.id }, patient);
+            try
+            {
+                await _patientRepository.AddPatientAsync(patient);
+                return CreatedAtAction(nameof(GetPatient), new { patient.id }, patient);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("already exists"))
+                {
+                    return Conflict(ex.Message);
+                }
+                else
+                {
+                    return StatusCode(500, "An unexpected error occurred.");
+                }
+            }
         }
 
         [HttpPut("{patientId}")]

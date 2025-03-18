@@ -17,6 +17,45 @@ namespace ZorgmaatjeWebApi.OuderVoogd.Repositories
             this.sqlConnectionString = sqlConnectionString;
         }
 
-       
+        public async Task<OuderVoogd> GetOuderVoogdByIdAsync(string id)
+        {
+            using (var sqlConnection = new SqlConnection(sqlConnectionString))
+            {
+                return await sqlConnection.QuerySingleOrDefaultAsync<OuderVoogd>("SELECT * FROM OuderVoogd WHERE Id = @Id", new { id });
+            }
+        }
+
+        public async Task<IEnumerable<OuderVoogd>> GetAllOuderVoogdenAsync()
+        {
+            using (var sqlConnection = new SqlConnection(sqlConnectionString))
+            {
+                return await sqlConnection.QueryAsync<OuderVoogd>("SELECT * FROM OuderVoogd");
+            }
+        }
+
+        public async Task AddOuderVoogdAsync(OuderVoogd ouderVoogd)
+        {
+            using (var sqlConnection = new SqlConnection(sqlConnectionString))
+            {
+                await sqlConnection.ExecuteAsync("INSERT INTO OuderVoogd (Id, Voornaam, Achternaam) VALUES (@Id, @Voornaam, @Achternaam)", ouderVoogd);
+            }
+        }
+
+        public async Task UpdateOuderVoogdAsync(OuderVoogd ouderVoogd)
+        {
+            using (var sqlConnection = new SqlConnection(sqlConnectionString))
+            {
+                await sqlConnection.ExecuteAsync("UPDATE OuderVoogd SET Voornaam = @Voornaam, Achternaam = @Achternaam WHERE Id = @Id", ouderVoogd);
+            }
+        }
+
+        public async Task DeleteOuderVoogdAsync(string id)
+        {
+            using (var sqlConnection = new SqlConnection(sqlConnectionString))
+            {
+                await sqlConnection.ExecuteAsync("DELETE FROM OuderVoogd WHERE Id = @Id", new { id });
+            }
+        }
+
     }
 }
