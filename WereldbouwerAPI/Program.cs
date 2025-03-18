@@ -46,7 +46,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
 // to resolve the current user.
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IAuthenticationService, AspNetIdentityAuthenticationService>();
-builder.Services.AddTransient<IPatientRepository, PatientRepository>(o => new PatientRepository(sqlConnectionString));
+builder.Services.AddTransient<IOuderVoogdRepository, PatientRepository>(o => new PatientRepository(sqlConnectionString));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -54,28 +54,36 @@ namespace ZorgmaatjeWebApi.Patient.Controllers
         public async Task<ActionResult<Patient>> CreatePatient(Patient patient)
         {
             var userId = _authenticationService.GetCurrentAuthenticatedUserId();
+            patient.id = userId;
             await _patientRepository.AddPatientAsync(patient);
             return CreatedAtAction(nameof(GetPatient), new { patient.id }, patient);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{patientId}")]
         [Authorize]
-        public async Task<IActionResult> UpdatePatient(string id, Patient patient)
+        public async Task<IActionResult> UpdatePatient(string patientId, Patient newPatient)
         {
-            if (id != patient.id)
+            var existingPatient = await _patientRepository.GetPatientByIdAsync(patientId);
+            if (existingPatient == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            await _patientRepository.UpdatePatientAsync(patient);
-            return NoContent();
+            newPatient.id = patientId;
+            await _patientRepository.UpdatePatientAsync(newPatient);
+            return CreatedAtAction(nameof(GetPatient), new { newPatient.id }, newPatient);
         }
 
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> DeletePatient(string id)
         {
+            var existingPatient = await _patientRepository.GetPatientByIdAsync(id);
+            if (existingPatient == null)
+            {
+                return NotFound();
+            }
             await _patientRepository.DeletePatientAsync(id);
-            return NoContent();
+            return Ok(id);
         }
 
     }

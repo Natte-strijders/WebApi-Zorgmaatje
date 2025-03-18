@@ -37,7 +37,7 @@ namespace ZorgmaatjeWebApi.Patient.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                await sqlConnection.ExecuteAsync("INSERT INTO Patient (UserId, Voornaam, Achternaam, OuderVoogd_ID, TrajectID, ArtsID) VALUES (@UserId, @Voornaam, @Achternaam, @OuderVoogd_ID, @TrajectID, @ArtsID)", patient);
+                await sqlConnection.ExecuteAsync("INSERT INTO Patient (ID, Voornaam, Achternaam, OuderVoogd_ID, TrajectID, ArtsID) VALUES (@Id, @Voornaam, @Achternaam, @OuderVoogd_ID, @TrajectID, @ArtsID)", patient);
             }
         }
 
