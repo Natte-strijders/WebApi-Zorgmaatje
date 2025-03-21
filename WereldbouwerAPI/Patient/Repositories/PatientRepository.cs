@@ -42,7 +42,7 @@ namespace ZorgmaatjeWebApi.Patient.Repositories
                 {
                     throw new Exception($"Patient with Id {patient.id} already exists.");
                 }
-                await sqlConnection.ExecuteAsync("INSERT INTO Patient (ID, Voornaam, Achternaam, OuderVoogd_ID, TrajectID, ArtsID) VALUES (@Id, @Voornaam, @Achternaam, @OuderVoogd_ID, @TrajectID, @ArtsID)", patient);
+                await sqlConnection.ExecuteAsync("INSERT INTO Patient (ID, Voornaam, Achternaam, TrajectID, ArtsID) VALUES (@Id, @Voornaam, @Achternaam, @TrajectID, @ArtsID)", patient);
             }
         }
 
@@ -50,7 +50,7 @@ namespace ZorgmaatjeWebApi.Patient.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                await sqlConnection.ExecuteAsync("UPDATE Patient SET Voornaam = @Voornaam, Achternaam = @Achternaam, OuderVoogd_ID = @OuderVoogd_ID, TrajectID = @TrajectID, ArtsID = @ArtsID WHERE Id = @Id", patient);
+                await sqlConnection.ExecuteAsync("UPDATE Patient SET Voornaam = @Voornaam, Achternaam = @Achternaam, TrajectID = @TrajectID, ArtsID = @ArtsID WHERE Id = @Id", patient);
             }
         }
 

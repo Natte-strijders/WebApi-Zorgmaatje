@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Identity;
-using ZorgmaatjeWebApi.OuderVoogd.Repositories;
 using ZorgmaatjeWebApi.Patient.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,7 +47,6 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IAuthenticationService, AspNetIdentityAuthenticationService>();
 builder.Services.AddTransient<IPatientRepository, PatientRepository>(o => new PatientRepository(sqlConnectionString));
-builder.Services.AddTransient<IOuderVoogdRepository, OuderVoogdRepository>(o => new OuderVoogdRepository(sqlConnectionString));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
