@@ -23,7 +23,6 @@ namespace ZorgmaatjeWebApi.Traject.Controllers
         }
 
         [HttpGet("{naam}")]
-        [Authorize]
         public async Task<ActionResult<Traject>> GetTraject(string naam)
         {
             var traject = await _trajectRepository.GetTrajectByNaamAsync(naam);
@@ -35,7 +34,6 @@ namespace ZorgmaatjeWebApi.Traject.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<Traject>>> GetTrajects()
         {
             var trajects = await _trajectRepository.GetAllTrajectsAsync();

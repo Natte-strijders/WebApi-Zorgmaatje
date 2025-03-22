@@ -77,6 +77,6 @@ app.UseAuthorization();
 
 //app.UseAuthorization();
 
-app.MapControllers().RequireAuthorization();
+app.MapControllers();//.RequireAuthorization();
 
 app.Run();

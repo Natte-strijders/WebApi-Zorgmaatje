@@ -24,7 +24,6 @@ namespace ZorgmaatjeWebApi.Arts.Controller
         }
 
         [HttpGet("{naam}")]
-        [Authorize]
         public async Task<ActionResult<Arts>> GetArts(string naam)
         {
             var arts = await _artsRepository.GetArtsByNaamAsync(naam);
@@ -36,7 +35,6 @@ namespace ZorgmaatjeWebApi.Arts.Controller
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<Arts>>> GetArtsen()
         {
             var artsen = await _artsRepository.GetAllArtsAsync();
