@@ -10,7 +10,7 @@ namespace ZorgmaatjeWebApi.Patient
         [Required]
         public string achternaam { get; set; }
         public int trajectId { get; set; }
-        public int artsId { get; set; }
+        public string artsId { get; set; }
     }
 
 }
