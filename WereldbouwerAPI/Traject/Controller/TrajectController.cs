@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using ZorgmaatjeWebApi.Patient.Repositories;
 using ZorgmaatjeWebApi.Traject.Repositories;
 
 namespace ZorgmaatjeWebApi.Traject.Controllers
