@@ -2,7 +2,8 @@
 {
     public interface IZorgMomentRepository
     {
-        Task<ZorgMoment> GetByIdAsync(int id);
+        Task<ZorgMoment> GetByIdAsync(int id); 
+        Task<IEnumerable<dynamic>> GetZorgMomentenByPatientIdSortedByVolgordeAsync(string patientId);
         Task<IEnumerable<ZorgMoment>> GetAllAsync();
         Task AddAsync(ZorgMoment zorgMoment);
         Task UpdateAsync(ZorgMoment zorgMoment);

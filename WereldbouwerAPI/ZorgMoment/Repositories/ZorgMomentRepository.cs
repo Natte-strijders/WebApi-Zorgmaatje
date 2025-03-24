@@ -25,6 +25,20 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Repositories
             }
         }
 
+        public async Task<IEnumerable<dynamic>> GetZorgMomentenByPatientIdSortedByVolgordeAsync(string patientId)
+        {
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                return await connection.QueryAsync(
+                    @"SELECT ZorgMoment.*, Traject_ZorgMoment.Volgorde
+                      FROM Traject_ZorgMoment
+                      JOIN ZorgMoment ON Traject_ZorgMoment.ZorgMomentID = ZorgMoment.ID
+                      WHERE ZorgMoment.PatientId = @PatientId
+                      ORDER BY Traject_ZorgMoment.Volgorde",
+                    new { PatientId = patientId });
+            }
+        }
+
         public async Task<IEnumerable<ZorgMoment>> GetAllAsync()
         {
             using (var connection = new SqlConnection(sqlConnectionString))
