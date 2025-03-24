@@ -20,9 +20,4 @@
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ZorgMoment\Controller\" />
-    <Folder Include="ZorgMoment\Repositories\" />
-  </ItemGroup>
-
 </Project>
