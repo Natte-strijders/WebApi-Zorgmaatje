@@ -4,10 +4,11 @@ namespace ZorgmaatjeWebApi.ZorgMoment
 {
     public class ZorgMoment
     {
-        public int id { get; set; }
-        public string naam { get; set; }
-        public string url { get; set; }
-        public byte[] plaatje { get; set; }
-        public int tijdsDuurInMin { get; set; }
+
+            public int Id { get; set; }
+            public string Naam { get; set; }
+            public DateTime DatumTijd { get; set; }
+            public string PatientId { get; set; }
+        
     }
 }

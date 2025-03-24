@@ -19,13 +19,13 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Repositories
             this.sqlConnectionString = sqlConnectionString;
         }
 
-        public async Task<TrajectZorgMoment> GetByIdAsync(int id)
+        public async Task<TrajectZorgMoment> GetByIdAsync(TrajectZorgMomentKey key)
         {
             using (var connection = new SqlConnection(sqlConnectionString))
             {
                 return await connection.QueryFirstOrDefaultAsync<TrajectZorgMoment>(
-                    "SELECT * FROM Traject_ZorgMoment WHERE TrajectZorgMomentId = @Id",
-                    new { Id = id });
+                    "SELECT * FROM Traject_ZorgMoment WHERE TrajectId = @TrajectId AND ZorgMomentId = @ZorgMomentId",
+                    key);
             }
         }
 
@@ -42,7 +42,7 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Repositories
             using (var connection = new SqlConnection(sqlConnectionString))
             {
                 await connection.ExecuteAsync(
-                    "INSERT INTO Traject_ZorgMoment (ZorgMomentId, Volgorde) VALUES (@ZorgMomentId, @Volgorde)",
+                    "INSERT INTO Traject_ZorgMoment (TrajectId, ZorgMomentId, Volgorde) VALUES (@TrajectId, @ZorgMomentId, @Volgorde)",
                     trajectZorgMoment);
             }
         }
@@ -52,18 +52,18 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Repositories
             using (var connection = new SqlConnection(sqlConnectionString))
             {
                 await connection.ExecuteAsync(
-                    "UPDATE Traject_ZorgMoment SET ZorgMomentId = @ZorgMomentId, Volgorde = @Volgorde WHERE TrajectZorgMomentId = @TrajectZorgMomentId",
+                    "UPDATE Traject_ZorgMoment SET Volgorde = @Volgorde WHERE TrajectId = @TrajectId AND ZorgMomentId = @ZorgMomentId",
                     trajectZorgMoment);
             }
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(TrajectZorgMomentKey key)
         {
             using (var connection = new SqlConnection(sqlConnectionString))
             {
                 await connection.ExecuteAsync(
-                    "DELETE FROM Traject_ZorgMoment WHERE TrajectZorgMomentId = @Id",
-                    new { Id = id });
+                    "DELETE FROM Traject_ZorgMoment WHERE TrajectId = @TrajectId AND ZorgMomentId = @ZorgMomentId",
+                    key);
             }
         }
     }

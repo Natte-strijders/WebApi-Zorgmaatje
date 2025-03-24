@@ -4,9 +4,9 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment
 {
     public class TrajectZorgMoment
     {
-        public int TrajectZorgMomentId { get; set; }
-        public int ZorgMomentId { get; set; }
-        public int Volgorde { get; set; }
+        public int trajectId { get; set; }
+        public int zorgMomentId { get; set; }
+        public int volgorde { get; set; }
 
     }
 }

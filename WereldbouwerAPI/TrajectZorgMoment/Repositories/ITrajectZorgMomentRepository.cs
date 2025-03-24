@@ -5,10 +5,10 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Repositories
 {
     public interface ITrajectZorgMomentRepository
     {
-        Task<TrajectZorgMoment> GetByIdAsync(int id);
+        Task<TrajectZorgMoment> GetByIdAsync(TrajectZorgMomentKey key);
         Task<IEnumerable<TrajectZorgMoment>> GetAllAsync();
         Task AddAsync(TrajectZorgMoment trajectZorgMoment);
         Task UpdateAsync(TrajectZorgMoment trajectZorgMoment);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(TrajectZorgMomentKey key);
     }
 }

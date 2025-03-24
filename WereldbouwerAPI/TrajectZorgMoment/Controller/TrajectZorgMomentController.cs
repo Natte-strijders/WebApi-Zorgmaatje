@@ -21,10 +21,12 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TrajectZorgMoment>> GetTrajectZorgMoment(int id)
+        [HttpGet("{trajectId}/{zorgMomentId}")]
+        [Authorize]
+        public async Task<ActionResult<TrajectZorgMoment>> GetTrajectZorgMoment(int trajectId, int zorgMomentId)
         {
-            var trajectZorgMoment = await _trajectZorgMomentRepository.GetByIdAsync(id);
+            var key = new TrajectZorgMomentKey { TrajectId = trajectId, ZorgMomentId = zorgMomentId };
+            var trajectZorgMoment = await _trajectZorgMomentRepository.GetByIdAsync(key);
 
             if (trajectZorgMoment == null)
             {
@@ -35,6 +37,7 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<TrajectZorgMoment>>> GetTrajectZorgMomenten()
         {
             var trajectZorgMomenten = await _trajectZorgMomentRepository.GetAllAsync();
@@ -42,41 +45,46 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<TrajectZorgMoment>> PostTrajectZorgMoment(TrajectZorgMoment trajectZorgMomentDto)
         {
             var trajectZorgMoment = new TrajectZorgMoment
             {
-                ZorgMomentId = trajectZorgMomentDto.ZorgMomentId,
-                Volgorde = trajectZorgMomentDto.Volgorde
+                trajectId = trajectZorgMomentDto.trajectId,
+                zorgMomentId = trajectZorgMomentDto.zorgMomentId,
+                volgorde = trajectZorgMomentDto.volgorde
             };
 
             await _trajectZorgMomentRepository.AddAsync(trajectZorgMoment);
 
-            return CreatedAtAction(nameof(GetTrajectZorgMoment), new { id = trajectZorgMoment.TrajectZorgMomentId }, trajectZorgMoment);
+            return CreatedAtAction(nameof(GetTrajectZorgMoment), new { trajectId = trajectZorgMoment.trajectId, zorgMomentId = trajectZorgMoment.zorgMomentId }, trajectZorgMoment);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTrajectZorgMoment(int id, TrajectZorgMoment trajectZorgMomentDto)
+        [HttpPut("{trajectId}/{zorgMomentId}")]
+        [Authorize]
+        public async Task<IActionResult> PutTrajectZorgMoment(int trajectId, int zorgMomentId, TrajectZorgMoment trajectZorgMomentDto)
         {
-            var existingTrajectZorgMoment = await _trajectZorgMomentRepository.GetByIdAsync(id);
+            var key = new TrajectZorgMomentKey { TrajectId = trajectId, ZorgMomentId = zorgMomentId };
+            var existingTrajectZorgMoment = await _trajectZorgMomentRepository.GetByIdAsync(key);
 
             if (existingTrajectZorgMoment == null)
             {
                 return NotFound();
             }
 
-            existingTrajectZorgMoment.ZorgMomentId = trajectZorgMomentDto.ZorgMomentId;
-            existingTrajectZorgMoment.Volgorde = trajectZorgMomentDto.Volgorde;
+            existingTrajectZorgMoment.volgorde = trajectZorgMomentDto.volgorde;
 
             await _trajectZorgMomentRepository.UpdateAsync(existingTrajectZorgMoment);
 
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTrajectZorgMoment(int id)
+        [HttpDelete("{trajectId}/{zorgMomentId}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteTrajectZorgMoment(int trajectId, int zorgMomentId)
         {
-            await _trajectZorgMomentRepository.DeleteAsync(id);
+            var key = new TrajectZorgMomentKey { TrajectId = trajectId, ZorgMomentId = zorgMomentId };
+            await _trajectZorgMomentRepository.DeleteAsync(key);
             return NoContent();
         }
     }
