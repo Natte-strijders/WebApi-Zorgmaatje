@@ -9,6 +9,7 @@
         Task AddAsync(ZorgMoment zorgMoment);
         Task UpdateAsync(ZorgMoment zorgMoment);
         Task DeleteAsync(int id);
+        Task<int> DeleteZorgMomentenByPatientIdAsync(string patientId);
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<ZorgMoment>> GetZorgMoment(int id)
         {
             var zorgMoment = await _zorgMomentRepository.GetByIdAsync(id);
@@ -31,6 +33,7 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Controllers
         }
 
         [HttpGet("name/patient/{naam}/{patientId}")]
+        [Authorize]
         public async Task<IActionResult> GetZorgMomentByNameAndPatientId(string naam, string patientId)
         {
             var zorgMoment = await _zorgMomentRepository.GetZorgMomentByNameAndPatientIdAsync(naam, patientId);
@@ -44,6 +47,7 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Controllers
         }
 
         [HttpGet("patient/volgorde/{patientId}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<dynamic>>> GetZorgMomentenByPatientIdSortedByVolgorde(string patientId)
         {
             var zorgMomenten = await _zorgMomentRepository.GetZorgMomentenByPatientIdSortedByVolgordeAsync(patientId);
@@ -51,6 +55,7 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ZorgMoment>>> GetZorgMomenten()
         {
             var zorgMomenten = await _zorgMomentRepository.GetAllAsync();
@@ -58,6 +63,7 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ZorgMoment>> PostZorgMoment(ZorgMoment zorgMoment)
         {
             await _zorgMomentRepository.AddAsync(zorgMoment);
@@ -65,6 +71,7 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutZorgMoment(int id, ZorgMoment zorgMoment)
         {
             if (id != zorgMoment.id)
@@ -73,14 +80,29 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Controllers
             }
 
             await _zorgMomentRepository.UpdateAsync(zorgMoment);
-            return NoContent();
+            return CreatedAtAction(nameof(GetZorgMoment), new { id = zorgMoment.id }, zorgMoment);
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteZorgMoment(int id)
         {
             await _zorgMomentRepository.DeleteAsync(id);
-            return NoContent();
+            return Ok();
+        }
+
+        [HttpDelete("Patient/{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteZorgMomentenByPatientId(string patientId)
+        {
+            int affectedRows = await _zorgMomentRepository.DeleteZorgMomentenByPatientIdAsync(patientId);
+
+            if (affectedRows == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(affectedRows);
         }
     }
 }

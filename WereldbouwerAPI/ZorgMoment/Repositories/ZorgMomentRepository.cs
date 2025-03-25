@@ -92,5 +92,18 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Repositories
                     new { Id = id });
             }
         }
+
+        public async Task<int> DeleteZorgMomentenByPatientIdAsync(string patientId)
+        {
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                string sql = @"
+            DELETE FROM ZorgMoment
+            WHERE PatientId = @PatientId;
+        ";
+
+                return await connection.ExecuteAsync(sql, new { PatientId = patientId });
+            }
+        }
     }
 }
