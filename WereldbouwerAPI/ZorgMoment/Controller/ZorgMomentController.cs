@@ -30,6 +30,19 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Controllers
             return zorgMoment;
         }
 
+        [HttpGet("name/patient/{naam}/{patientId}")]
+        public async Task<IActionResult> GetZorgMomentByNameAndPatientId(string naam, string patientId)
+        {
+            var zorgMoment = await _zorgMomentRepository.GetZorgMomentByNameAndPatientIdAsync(naam, patientId);
+
+            if (zorgMoment == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(zorgMoment);
+        }
+
         [HttpGet("patient/volgorde/{patientId}")]
         public async Task<ActionResult<IEnumerable<dynamic>>> GetZorgMomentenByPatientIdSortedByVolgorde(string patientId)
         {

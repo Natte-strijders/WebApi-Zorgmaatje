@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
@@ -22,6 +23,21 @@ namespace ZorgmaatjeWebApi.ZorgMoment.Repositories
                 return await connection.QueryFirstOrDefaultAsync<ZorgMoment>(
                     "SELECT * FROM ZorgMoment WHERE Id = @Id",
                     new { Id = id });
+            }
+        }
+
+        public async Task<ZorgMoment> GetZorgMomentByNameAndPatientIdAsync(string naam, string patientId)
+        {
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                string sql = @"
+            SELECT *
+            FROM ZorgMoment
+            WHERE Naam = @Naam AND PatientId = @PatientId;
+        "
+            ;
+
+                return await connection.QueryFirstOrDefaultAsync<ZorgMoment>(sql, new { Naam = naam, PatientId = patientId });
             }
         }
 
