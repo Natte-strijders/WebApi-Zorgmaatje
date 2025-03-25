@@ -87,5 +87,19 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Controllers
             await _trajectZorgMomentRepository.DeleteAsync(key);
             return NoContent();
         }
+
+        [HttpDelete("Patient/{patientId}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteTrajectZorgMomentenByPatientId(string patientId)
+        {
+            int affectedRows = await _trajectZorgMomentRepository.DeleteTrajectZorgMomentenByPatientIdAsync(patientId);
+
+            if (affectedRows == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(affectedRows);
+        }
     }
 }

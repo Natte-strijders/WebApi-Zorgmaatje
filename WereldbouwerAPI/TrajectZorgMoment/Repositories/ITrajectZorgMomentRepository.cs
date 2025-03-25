@@ -10,5 +10,6 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Repositories
         Task AddAsync(TrajectZorgMoment trajectZorgMoment);
         Task UpdateAsync(TrajectZorgMoment trajectZorgMoment);
         Task DeleteAsync(TrajectZorgMomentKey key);
+        Task<int> DeleteTrajectZorgMomentenByPatientIdAsync(string patientId);
     }
 }

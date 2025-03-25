@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -64,6 +65,24 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Repositories
                 await connection.ExecuteAsync(
                     "DELETE FROM Traject_ZorgMoment WHERE TrajectId = @TrajectId AND ZorgMomentId = @ZorgMomentId",
                     key);
+            }
+        }
+
+        public async Task<int> DeleteTrajectZorgMomentenByPatientIdAsync(string patientId)
+        {
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                string sql = @"
+            DELETE FROM Traject_ZorgMoment
+            WHERE ZorgMomentId IN (
+                SELECT Id
+                FROM ZorgMoment
+                WHERE PatientId = @PatientId
+            );
+        "
+            ;
+
+                return await connection.ExecuteAsync(sql, new { PatientId = patientId });
             }
         }
     }
