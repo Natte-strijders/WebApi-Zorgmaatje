@@ -33,7 +33,7 @@ namespace ZorgmaatjeWebApi.TrajectZorgMoment.Controllers
                 return NotFound();
             }
 
-            return trajectZorgMoment;
+            return Ok(trajectZorgMoment);
         }
 
         [HttpGet]
