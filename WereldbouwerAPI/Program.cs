@@ -10,8 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 //identity middleware = builder.Build();
 
-var sqlConnectionString = builder.Configuration["SqlConnectionString"];
-//var sqlConnectionString = builder.Configuration.GetValue<string>("SqlConnectionString");
+//  var sqlConnectionString = builder.Configuration["SqlConnectionString"];
+var sqlConnectionString = builder.Configuration.GetValue<string>("SqlConnectionString");
 var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionString);
 
 
@@ -75,7 +75,7 @@ app.MapGroup("/account")
       .MapIdentityApi<IdentityUser>();
 app.UseHttpsRedirection();
 
-app.MapGet("/", () => $"The API is up . Connection string found: {(sqlConnectionStringFound ? "very good" : "very bad")}");
+app.MapGet("/", () => $"The API is up . Connection string found: {(sqlConnectionStringFound ? "✅" : "❌")}");
 
 app.UseAuthorization();
 
