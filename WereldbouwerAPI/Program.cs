@@ -5,6 +5,7 @@ using ZorgmaatjeWebApi.Traject.Repositories;
 using ZorgmaatjeWebApi.Arts.Repositories;
 using ZorgmaatjeWebApi.TrajectZorgMoment.Repositories;
 using ZorgmaatjeWebApi.ZorgMoment.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +74,19 @@ if (app.Environment.IsDevelopment())
 
 app.MapGroup("/account")
       .MapIdentityApi<IdentityUser>();
+
+app.MapPost(pattern: "/account/logout",
+    async (SignInManager<IdentityUser> signInManager,
+    [FromBody] object empty) => {
+        if (empty != null)
+        {
+            await signInManager.SignOutAsync();
+            return Results.Ok();
+        }
+        return Results.Unauthorized();
+    })
+    .RequireAuthorization();
+
 app.UseHttpsRedirection();
 
 app.MapGet("/", () => $"The API is up . Connection string found: {(sqlConnectionStringFound ? "✅" : "❌")}");
