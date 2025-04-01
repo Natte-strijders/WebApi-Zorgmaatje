@@ -75,17 +75,10 @@ if (app.Environment.IsDevelopment())
 app.MapGroup("/account")
       .MapIdentityApi<IdentityUser>();
 
-app.MapPost(pattern: "/account/logout",
-    async (SignInManager<IdentityUser> signInManager,
-    [FromBody] object empty) => {
-        if (empty != null)
-        {
-            await signInManager.SignOutAsync();
-            return Results.Ok();
-        }
-        return Results.Unauthorized();
-    })
-    .RequireAuthorization();
+app.MapPost("/account/logout", async (SignInManager<IdentityUser> signInManager) => {
+    await signInManager.SignOutAsync();
+    return Results.Ok();
+}).RequireAuthorization();
 
 app.UseHttpsRedirection();
 
